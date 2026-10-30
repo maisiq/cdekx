@@ -1,0 +1,54 @@
+
+
+# IDE / ОС
+# Python
+# Виртуальные окружения и менеджеры пакетов
+# Документация
+# Логи и артефакты отладки
+# Секреты и локальные настройки
+# Тесты, покрытие, кэши инструментов
+*$py.class
+*.egg-info/
+*.key
+*.log
+*.pdf
+*.pem
+*.py[cod]
+*.so
+*.swp
+.DS_Store
+.Python
+.apidoc/
+.coverage
+.coverage.*
+.dmypy.json
+.eggs/
+.env
+.env.*
+!.env.example
+.idea/
+.mypy_cache/
+.nox/
+.pytest_cache/
+.python-version
+.ruff_cache/
+.tox/
+.venv/
+.vscode/
+/tmp/
+Thumbs.db
+__pycache__/
+build/
+coverage.xml
+dist/
+docs/_build/
+site/
+env/
+htmlcov/
+pip-log.txt
+pip-wheel-metadata/
+poetry.lock
+secrets.*
+uv.lock
+venv/
+wheels/

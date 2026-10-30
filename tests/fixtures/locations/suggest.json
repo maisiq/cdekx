@@ -1,0 +1,14 @@
+[
+  {
+    "city_uuid": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+    "code": 532,
+    "full_name": "г. Новосибирск, Новосибирская обл",
+    "country_code": "RU"
+  },
+  {
+    "city_uuid": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+    "code": 1188,
+    "full_name": "п. Новосибирский, Новосибирский р-н, Новосибирская обл",
+    "country_code": "RU"
+  }
+]

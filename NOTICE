@@ -1,0 +1,12 @@
+cdekx
+Copyright 2026 cdekx contributors
+
+This product is an independent implementation of the public CDEK API v2,
+built from the OpenAPI specification published at https://apidoc.cdek.ru/
+(section "api_v2_integration").
+
+No source code of other CDEK client libraries is included in, copied into,
+or derived into this product. What this project shares with any other CDEK
+integration is limited to non-copyrightable facts about the API itself:
+endpoint paths, field names, data types, dictionary values (service codes,
+statuses, tariff codes) and the OAuth 2.0 flow described by CDEK.

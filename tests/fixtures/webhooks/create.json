@@ -1,0 +1,13 @@
+{
+  "entity": {
+    "uuid": "cc33dd44-ee55-ff66-7788-990011223344"
+  },
+  "requests": [
+    {
+      "request_uuid": "ee55ff66-7788-9900-1122-334455667788",
+      "type": "CREATE",
+      "date_time": "2026-05-05T10:00:00+0300",
+      "state": "SUCCESSFUL"
+    }
+  ]
+}

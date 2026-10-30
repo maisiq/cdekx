@@ -1,0 +1,23 @@
+{
+  "entity": null,
+  "requests": [
+    {
+      "request_uuid": "3e1df5ff-9aab-4d8e-887c-ef2aaa546456",
+      "type": "CREATE",
+      "date_time": "2026-05-05T12:00:00+0300",
+      "state": "INVALID",
+      "errors": [
+        {
+          "code": "v2_sender_location_not_recognized",
+          "message": "Sender location is not recognized"
+        },
+        {
+          "code": "v2_outdated_tariff",
+          "message": "Tariff 136 is outdated"
+        }
+      ],
+      "warnings": []
+    }
+  ],
+  "related_entities": []
+}

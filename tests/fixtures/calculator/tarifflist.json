@@ -1,0 +1,30 @@
+{
+  "tariff_codes": [
+    {
+      "tariff_code": 136,
+      "tariff_name": "Экспресс лайт дверь-дверь",
+      "tariff_description": "Срочная доставка документов и грузов",
+      "delivery_mode": 1,
+      "delivery_sum": 480.5,
+      "period_min": 2,
+      "period_max": 3,
+      "calendar_min": 3,
+      "calendar_max": 4,
+      "delivery_date_range": {"min": "2026-05-10", "max": "2026-05-11"}
+    },
+    {
+      "tariff_code": 5,
+      "tariff_name": "Магистральный экспресс дверь-дверь",
+      "tariff_description": "Быстрая экономичная доставка грузов",
+      "delivery_mode": 1,
+      "delivery_sum": 320.0,
+      "period_min": 4,
+      "period_max": 6,
+      "calendar_min": 5,
+      "calendar_max": 7,
+      "delivery_date_range": {"min": "2026-05-12", "max": "2026-05-14"}
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

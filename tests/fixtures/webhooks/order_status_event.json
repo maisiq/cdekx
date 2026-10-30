@@ -1,0 +1,25 @@
+{
+  "type": "ORDER_STATUS",
+  "date_time": "2026-05-06T18:30:00+0300",
+  "uuid": "8dea00e3-9aab-4d8e-887c-ef2aaa546456",
+  "attributes": {
+    "is_return": false,
+    "cdek_number": "1234567890",
+    "number": "ORDER-0001",
+    "status_code": "5",
+    "status_reason_code": "RECEIVED_AT_WAREHOUSE",
+    "status_date_time": "2026-05-06T18:30:00+0300",
+    "city_name": "Москва",
+    "city_code": 44,
+    "code": "IN_TRANSIT",
+    "is_reverse": false,
+    "is_client_return": false,
+    "related_entities": [
+      {
+        "type": "direct_order",
+        "cdek_number": "1234567890",
+        "uuid": "8dea00e3-9aab-4d8e-887c-ef2aaa546456"
+      }
+    ]
+  }
+}

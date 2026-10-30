@@ -1,0 +1,121 @@
+{
+  "uuid": "8dea00e3-9aab-4d8e-887c-ef2aaa546456",
+  "type": 1,
+  "additional_order_types": [],
+  "is_return": false,
+  "is_reverse": false,
+  "cdek_number": "1234567890",
+  "number": "ORDER-0001",
+  "tariff_code": 136,
+  "comment": "Создан примером cdekx",
+  "shipment_point": null,
+  "delivery_point": null,
+  "delivery_recipient_cost": {"value": 350.0, "vat_sum": 58.33, "vat_rate": 20},
+  "delivery_recipient_cost_adv": [{"threshold": 5000, "sum": 500, "vat_rate": 20}],
+  "sender": {
+    "company": "ООО «Ромашка»",
+    "name": "Иван Петров",
+    "contragent_type": "LEGAL_ENTITY",
+    "email": "sender@example.com",
+    "phones": [{"number": "+79001234567", "additional": "123"}],
+    "tin": "7701234567"
+  },
+  "recipient": {
+    "name": "Мария Смирнова",
+    "contragent_type": "INDIVIDUAL",
+    "phones": [{"number": "+79007654321"}]
+  },
+  "from_location": {
+    "code": 44,
+    "city_uuid": "0c5b2444-70a0-4932-980c-b4dc0d3f02b5",
+    "city": "Москва",
+    "country_code": "RU",
+    "country": "Россия",
+    "region": "Москва",
+    "region_code": 77,
+    "address": "ул. Тестовая, 1",
+    "postal_code": "101000",
+    "longitude": 37.622513,
+    "latitude": 55.75322,
+    "time_zone": "Europe/Moscow",
+    "payment_limit": 500000
+  },
+  "to_location": {
+    "code": 270,
+    "city": "Екатеринбург",
+    "country_code": "RU",
+    "region": "Свердловская",
+    "region_code": 66,
+    "address": "ул. Проверочная, 2, кв. 5",
+    "payment_limit": 500000
+  },
+  "services": [
+    {"code": "INSURANCE", "parameter": "1990", "sum": 39.8, "total_sum": 39.8, "vat_rate": 20, "vat_sum": 6.63}
+  ],
+  "packages": [
+    {
+      "number": "PKG-1",
+      "barcode": "00001234567",
+      "weight": 1500,
+      "length": 35,
+      "width": 25,
+      "height": 15,
+      "weight_volume": 2625,
+      "weight_calc": 2625,
+      "items": [
+        {
+          "name": "Тестовый товар",
+          "ware_key": "SKU-001",
+          "payment": {"value": 1990.0, "vat_rate": 20, "vat_sum": 331.67},
+          "cost": 1990.0,
+          "weight": 1500,
+          "amount": 1,
+          "marking": "010460372502012321ABCDEF",
+          "feacn_code": "6109100000",
+          "seller": {"name": "ООО «Продавец»", "inn": "7707654321", "giis_subdivision_id": "IDTOP-1"}
+        }
+      ]
+    }
+  ],
+  "statuses": [
+    {
+      "code": "CREATED",
+      "name": "Создан",
+      "date_time": "2026-05-05T10:00:00+0300",
+      "city": "Москва",
+      "city_uuid": "0c5b2444-70a0-4932-980c-b4dc0d3f02b5",
+      "deleted": false
+    },
+    {
+      "code": "IN_TRANSIT",
+      "name": "В пути",
+      "date_time": "2026-05-06T18:30:00+0300",
+      "reason_code": "RECEIVED_AT_WAREHOUSE",
+      "city": "Москва",
+      "city_uuid": "0c5b2444-70a0-4932-980c-b4dc0d3f02b5",
+      "deleted": false
+    }
+  ],
+  "is_client_return": false,
+  "delivery_mode": 1,
+  "has_reverse_order": true,
+  "delay_reasons": [
+    {"create_date": "2026-05-07T09:00:00+0300", "description": "Задержка на магистрале"}
+  ],
+  "planned_delivery_date": "2026-05-12",
+  "delivery_detail": {
+    "date": "2026-05-12",
+    "recipient_name": "Мария Смирнова",
+    "payment_sum": 1990.0,
+    "delivery_sum": 350.0,
+    "total_sum": 2340.0,
+    "payment_info": [{"sum": 2340.0, "type": "CARD"}],
+    "delivery_vat_rate": 20,
+    "delivery_vat_sum": 58.33,
+    "delivery_discount_percent": 0,
+    "delivery_discount_sum": 0
+  },
+  "delivery_problem": [],
+  "calls": {"failed_calls": [], "rescheduled_calls": []},
+  "some_new_cdek_field": {"unexpected": true}
+}

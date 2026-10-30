@@ -1,0 +1,46 @@
+{
+  "entity": {
+    "uuid": "8dea00e3-9aab-4d8e-887c-ef2aaa546456",
+    "type": 1,
+    "is_return": false,
+    "is_reverse": false,
+    "is_client_return": false,
+    "cdek_number": "1234567890",
+    "number": "ORDER-0001",
+    "tariff_code": 136,
+    "delivery_mode": 1,
+    "has_reverse_order": true,
+    "sender": {"name": "Иван Петров", "phones": [{"number": "+79001234567"}]},
+    "recipient": {"name": "Мария Смирнова", "phones": [{"number": "+79007654321"}]},
+    "from_location": {"code": 44, "city": "Москва", "country_code": "RU", "address": "ул. Тестовая, 1", "payment_limit": 500000},
+    "to_location": {"code": 270, "city": "Екатеринбург", "country_code": "RU", "address": "ул. Проверочная, 2", "payment_limit": 500000},
+    "packages": [{"number": "PKG-1", "weight": 1500, "barcode": "00001234567", "weight_calc": 2625}],
+    "statuses": [
+      {"code": "IN_TRANSIT", "name": "В пути", "date_time": "2026-05-06T18:30:00+0300", "reason_code": "RECEIVED_AT_WAREHOUSE", "city": "Москва", "deleted": false}
+    ],
+    "delivery_detail": {"delivery_sum": 350.0, "total_sum": 2340.0}
+  },
+  "requests": [
+    {
+      "request_uuid": "1c9be3ff-9aab-4d8e-887c-ef2aaa546456",
+      "type": "CREATE",
+      "date_time": "2026-05-05T10:00:01+0300",
+      "state": "SUCCESSFUL",
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "related_entities": [
+    {
+      "uuid": "aaaaaaaa-1111-2222-3333-444444444444",
+      "type": "reverse_order",
+      "cdek_number": "1234567891",
+      "create_time": "2026-05-05T10:00:02+0300"
+    },
+    {
+      "uuid": "bbbbbbbb-1111-2222-3333-444444444444",
+      "type": "waybill",
+      "url": "https://api.cdek.ru/v2/print/orders/bbbbbbbb-1111-2222-3333-444444444444.pdf"
+    }
+  ]
+}

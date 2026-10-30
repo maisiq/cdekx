@@ -1,0 +1,207 @@
+name: Release
+
+# Публикация разделена на две цели, у каждой — своё GitHub-окружение и свой
+# Trusted Publisher (на PyPI и на TestPyPI это две независимые настройки).
+#
+#   push тега v*            → боевой PyPI      (окружение `pypi`)
+#   workflow_dispatch       → TestPyPI         (окружение `testpypi`)
+#
+# Разделение по разным job'ам, а не по `if:` внутри одного шага: так имя
+# окружения — строковый литерал, его видно и в настройках репозитория,
+# и в форме Trusted Publisher на PyPI, и нет соблазна отправить тег не туда.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build distributions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build tooling
+        run: python -m pip install --upgrade pip build twine
+
+      - name: Build sdist and wheel
+        run: python -m build
+
+      # `--strict` превращает предупреждения twine в ненулевой код возврата:
+      # без него «PASSED with warnings» (например, пустое long_description)
+      # не останавливает релиз.
+      - name: Check metadata
+        run: twine check --strict dist/*
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  tests:
+    name: Smoke test wheel
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Install wheel into clean env
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install dist/*.whl
+
+      - name: Import check
+        run: |
+          python -c "import cdekx; print(cdekx.__version__); print(cdekx.CdekClient)"
+          python -c "import cdekx.models, cdekx.types.enums, cdekx.webhooks; print('submodules ok')"
+
+      # CI по ветке может не запуститься (например, тег с форка), а публикация
+      # необратима: версию на PyPI нельзя перезагрузить. Поэтому прогоняем
+      # unit-тесты против уже собранного wheel прямо перед публикацией.
+      - name: Run unit tests against the wheel
+        run: |
+          python -m pip install pytest pytest-asyncio respx starlette
+          python -m pytest tests/unit -q
+
+      # Описание проекта на PyPI — README.en.md. Проверяем, что оно
+      # действительно попало в метаданные wheel как text/markdown, иначе
+      # на странице PyPI вместо README будет пустое место.
+      - name: Verify long description
+        run: |
+          python -m pip install pkginfo
+          python - <<'PY'
+          import glob, sys
+          from pkginfo import Wheel
+          w = Wheel(glob.glob("dist/*.whl")[0])
+          assert w.name == "cdekx", w.name
+          assert w.description and len(w.description) > 1000, len(w.description or "")
+          assert w.description_content_type == "text/markdown", w.description_content_type
+          head = w.description.lstrip().splitlines()[0]
+          print("long_description starts with:", head)
+          sys.exit(0 if head.startswith("# cdekx") else 1)
+          PY
+
+  publish-testpypi:
+    name: Publish to TestPyPI
+    runs-on: ubuntu-latest
+    needs: [build, tests]
+    # Только ручной запуск и только не с тега: тег — это боевой релиз.
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      !startsWith(github.ref, 'refs/tags/')
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/project/cdekx/
+    permissions:
+      # Trusted Publishing (OIDC) — токен в репозитории не хранится.
+      # На test.pypi.org → Account settings → Publishing → Add a new trusted publisher:
+      #   PyPI Project Name: cdekx
+      #   Owner:             maisiq
+      #   Repository name:   cdekx
+      #   Workflow name:     release.yml
+      #   Environment name:  testpypi
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      # `skip-existing` делает повторный прогон идемпотентным: TestPyPI не даёт
+      # перезалить ту же версию, и без этого флага ретрай падает на 400.
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          skip-existing: true
+          verbose: true
+
+  publish-pypi:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    needs: [build, tests]
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    environment:
+      name: pypi
+      url: https://pypi.org/project/cdekx/
+    permissions:
+      # На pypi.org → Account settings → Publishing → Add a new trusted publisher:
+      # те же поля, но Environment name: `pypi`.
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          verbose: true
+
+  github-release:
+    name: GitHub Release
+    runs-on: ubuntu-latest
+    needs: [publish-pypi]
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      # Заметки релиза — секция CHANGELOG.md для этого тега.
+      - name: Extract release notes
+        id: notes
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          python - "$TAG" > notes.md <<'PY'
+          import re, sys, pathlib
+          tag = sys.argv[1]
+          ver = tag.lstrip("vV")
+          text = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
+          parts = re.split(r"(?m)^(?=## )", text)
+          for part in parts:
+              if part.startswith(f"## [{ver}]") or part.startswith(f"## [v{ver}]"):
+                  body = part.split("\n", 1)[1]
+                  # отрезать хвост со ссылочными определениями [Unreleased]: ...
+                  body = re.split(r"(?m)^\[", body)[0]
+                  print(body.strip())
+                  break
+          else:
+              print(f"См. [CHANGELOG.md](https://github.com/maisiq/cdekx/blob/{tag}/CHANGELOG.md).")
+          PY
+          echo "--- notes.md ---"; cat notes.md
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            --title "${GITHUB_REF_NAME}" \
+            --notes-file notes.md \
+            dist/*

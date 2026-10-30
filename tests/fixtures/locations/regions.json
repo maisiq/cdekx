@@ -1,0 +1,16 @@
+[
+  {
+    "country_code": "RU",
+    "country": "Россия",
+    "region": "Москва",
+    "region_code": 77,
+    "fias_region_guid": "0c5b2444-70a0-4932-980c-b4dc0d3f02b5"
+  },
+  {
+    "country_code": "RU",
+    "country": "Россия",
+    "region": "Свердловская",
+    "region_code": 66,
+    "fias_region_guid": "92814fd2-8f4f-4c1c-9b1e-6f3f0a2d5c77"
+  }
+]

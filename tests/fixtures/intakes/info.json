@@ -1,0 +1,48 @@
+{
+  "entity": {
+    "uuid": "f1a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b5c",
+    "cdek_number": "1234567890",
+    "order_uuid": "8dea00e3-9aab-4d8e-887c-ef2aaa546456",
+    "intake_date": "2026-05-10",
+    "intake_number": "40000001",
+    "intake_time_from": "10:00",
+    "intake_time_to": "18:00",
+    "lunch_time_from": "13:00",
+    "lunch_time_to": "14:00",
+    "name": "Одно место, 2 кг",
+    "weight": 2000,
+    "length": 40,
+    "width": 30,
+    "height": 20,
+    "comment": "Забрать у охраны",
+    "courier_power_of_attorney": false,
+    "courier_identity_card": false,
+    "sender": {
+      "name": "Иван Петров",
+      "phones": [{"number": "+79001234567"}]
+    },
+    "from_location": {
+      "code": 44,
+      "city": "Москва",
+      "country_code": "RU",
+      "region": "Москва",
+      "region_code": 77,
+      "address": "ул. Тестовая, 1",
+      "postal_code": "101000"
+    },
+    "need_call": true,
+    "statuses": [
+      {"code": "CREATED", "name": "Создана", "date_time": "2026-05-05T10:00:00+0300"},
+      {"code": "ACCEPTED", "name": "Принята", "date_time": "2026-05-05T10:00:02+0300"}
+    ],
+    "packages": []
+  },
+  "requests": [
+    {
+      "request_uuid": "a9b8c7d6-e5f4-4a3b-8c9d-0e1f2a3b4c5d",
+      "type": "CREATE",
+      "date_time": "2026-05-05T10:00:00+0300",
+      "state": "SUCCESSFUL"
+    }
+  ]
+}

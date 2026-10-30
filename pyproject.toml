@@ -1,0 +1,271 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+# ---------------------------------------------------------------------------
+# Project metadata
+# ---------------------------------------------------------------------------
+[project]
+name = "cdekx"
+description = "Modern async client for the CDEK API v2: typed models, retries, pagination, webhooks."
+# Описание на странице PyPI — англоязычный README (в sdist/wheel входят оба файла).
+readme = "README.en.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "maisiq", email = "maisiq@users.noreply.github.com" }]
+keywords = [
+  "cdek",
+  "cdek-api",
+  "delivery",
+  "logistics",
+  "shipping",
+  "russia",
+  "api",
+  "api-client",
+  "async",
+  "asyncio",
+  "httpx",
+  "pydantic",
+  "sdk",
+]
+dynamic = ["version"]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Framework :: AsyncIO",
+  "Framework :: Pydantic",
+  "Framework :: Pydantic :: 2",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  # README и документация на GitHub — русские, исходный код — английский.
+  "Natural Language :: Russian",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Office/Business",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
+]
+
+dependencies = [
+  "httpx>=0.27,<0.29",
+  "pydantic>=2.7,<3",
+]
+
+[project.optional-dependencies]
+# Приём вебхуков в ASGI-приложении (cdekx.webhooks.asgi)
+webhooks = ["starlette>=0.37"]
+
+# Разработка: тесты, линтеры, документация (`pip install -e ".[dev]"`).
+# Дублирует dependency-groups ниже: PEP 735-группы видит только uv/pip 25.1+,
+# а extras работают везде. Списки должны совпадать — правьте оба места.
+dev = [
+  "starlette>=0.37",
+  # test
+  "pytest>=8.2",
+  "pytest-asyncio>=0.24",
+  "pytest-cov>=5.0",
+  "respx>=0.22",            # мокирование httpx-транспорта
+  "time-machine>=2.14",     # детерминированные тесты времени (опционально)
+  # lint
+  "ruff>=0.6",
+  "mypy>=1.11",
+  "types-requests",
+  # docs
+  "mkdocs>=1.6",
+  "mkdocs-material>=9.5",
+  "mkdocstrings[python]>=0.26",
+]
+
+[project.urls]
+Homepage = "https://github.com/maisiq/cdekx"
+Repository = "https://github.com/maisiq/cdekx"
+Documentation = "https://maisiq.github.io/cdekx/"
+Issues = "https://github.com/maisiq/cdekx/issues"
+Changelog = "https://github.com/maisiq/cdekx/blob/master/CHANGELOG.md"
+"CDEK API docs" = "https://apidoc.cdek.ru/"
+
+# ---------------------------------------------------------------------------
+# Dependency groups (PEP 735) — ставятся через `uv sync --group dev`.
+# Тот же набор опубликован как extra `dev` (см. [project.optional-dependencies])
+# для тех, кто работает через pip: `pip install -e ".[dev]"`.
+# ---------------------------------------------------------------------------
+[dependency-groups]
+dev = [
+  { include-group = "test" },
+  { include-group = "lint" },
+  { include-group = "docs" },
+]
+test = [
+  "pytest>=8.2",
+  "pytest-asyncio>=0.24",
+  "pytest-cov>=5.0",
+  "respx>=0.22",            # мокирование httpx-транспорта
+  "time-machine>=2.14",     # детерминированные тесты времени (опционально)
+]
+lint = [
+  "ruff>=0.6",
+  "mypy>=1.11",
+  "types-requests",
+]
+docs = [
+  "mkdocs>=1.6",
+  "mkdocs-material>=9.5",
+  "mkdocstrings[python]>=0.26",
+]
+
+[project.scripts]
+# Небольшая CLI-утилита для отладки (cdekx --help). См. scripts/.
+cdekx = "cdekx.__main__:main"
+
+# ---------------------------------------------------------------------------
+# Hatchling
+# ---------------------------------------------------------------------------
+[tool.hatch.version]
+path = "src/cdekx/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cdekx"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src/cdekx",
+  "tests",
+  "docs",
+  "examples",
+  "scripts",
+  "benchmarks",
+  "README.md",
+  "README.en.md",
+  "CHANGELOG.md",
+  "CONTRIBUTING.md",
+  "Makefile",
+  "mkdocs.yml",
+  "mkdocs_hooks.py",
+  "LICENSE",
+  "NOTICE",
+]
+
+# ---------------------------------------------------------------------------
+# Codespell (через pre-commit; в CI не запускается)
+# Исходный код переведён на английский, а README, docs/ и тесты остаются
+# русскими, поэтому проверяем только латиницу и пропускаем
+# сгенерированное/двоичное: site/ (сборка mkdocs), фикстуры JSON, lock-файлы.
+# ---------------------------------------------------------------------------
+[tool.codespell]
+skip = "./.git,./site,./.apidoc,./tests/fixtures,./uv.lock,*/__pycache__"
+
+# ---------------------------------------------------------------------------
+# Ruff
+# ---------------------------------------------------------------------------
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+src = ["src", "tests", "examples"]
+
+[tool.ruff.lint]
+select = [
+  "E", "W",     # pycodestyle
+  "F",          # pyflakes
+  "I",          # isort
+  "N",          # pep8-naming
+  "UP",         # pyupgrade
+  "B",          # bugbear
+  "A",          # builtins
+  "C4",         # comprehensions
+  "SIM",        # simplify
+  "RUF",        # ruff-specific
+  "ASYNC",      # flake8-async
+  "PT",         # flake8-pytest-style
+  "RET",        # return
+  "PTH",        # pathlib
+  "D",          # pydocstyle
+]
+ignore = [
+  "D203", "D213",   # конфликты стилей докстрингов
+  "B008",           # вызов функции в аргументе по умолчанию (Depends и т.п.)
+  "RUF012",         # mutable class attrs в pydantic-моделях
+  # README, docs/ и тесты остаются русскими: кириллица и «ёлочки» в строках
+  # и докстрингах там — норма, а ruff считает их неоднозначными символами.
+  "RUF001", "RUF002", "RUF003",
+  # TC* предлагает прятать импорты под TYPE_CHECKING. Для pydantic-моделей
+  # это ломает разрешение аннотаций в рантайме (PydanticUserError),
+  # а выгода для SDK невелика.
+  "TC001", "TC002", "TC003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D", "S101", "PT017", "PT018", "PT012"]
+# Примеры должны читаться как обычный код, а не как production-сервис:
+# докстринги не обязательны, а синхронная запись файла в демо допустима.
+"examples/**" = ["D", "ASYNC240"]
+"scripts/**" = ["D"]
+"src/cdekx/models/**" = ["D101", "D102"]  # модели описываются через Field(description=...)
+
+[tool.ruff.lint.isort]
+known-first-party = ["cdekx"]
+
+[tool.ruff.format]
+quote-style = "double"
+line-ending = "lf"
+
+# ---------------------------------------------------------------------------
+# Mypy
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_unreachable = true
+plugins = ["pydantic.mypy"]
+exclude = ["build/", "dist/"]
+
+[[tool.mypy.overrides]]
+module = ["tests.integration.*"]
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+# starlette — опциональная зависимость (extra "webhooks")
+module = ["starlette.*"]
+ignore_missing_imports = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+# ---------------------------------------------------------------------------
+# Pytest
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+pythonpath = ["tests"]
+addopts = "-ra --strict-markers --strict-config"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+markers = [
+  "integration: тесты против живого api.edu.cdek.ru (нужен CDEKX_RUN_INTEGRATION=1)",
+]
+filterwarnings = [
+  "error::DeprecationWarning:cdekx.*",
+  # предупреждения тестовых клиентов сторонних фреймворков нас не касаются
+  "ignore::DeprecationWarning:starlette.*",
+]
+
+# ---------------------------------------------------------------------------
+# Coverage
+# ---------------------------------------------------------------------------
+[tool.coverage.run]
+branch = true
+source = ["src/cdekx"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+exclude_lines = ["if TYPE_CHECKING:", "raise NotImplementedError", "@overload"]

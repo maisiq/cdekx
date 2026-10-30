@@ -1,0 +1,20 @@
+{
+  "check_info": [
+    {
+      "order_uuid": "8dea00e3-9aab-4d8e-887c-ef2aaa546456",
+      "cdek_number": 1234567890,
+      "date": "2026-05-05T10:12:33+0000",
+      "fiscal_storage_number": "9999078900001234",
+      "document_number": "0000000123",
+      "fiscal_sign": 4294967295,
+      "type": "CASH_RECEIPT_IN",
+      "payment_info": [
+        { "sum": 2340.0, "type": "CARD" },
+        { "sum": 60.5, "type": "CASH" }
+      ],
+      "shift_no": 12
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

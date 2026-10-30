@@ -1,0 +1,23 @@
+{
+  "registries": [
+    {
+      "registry_number": 123456,
+      "payment_date": "2026-05-06",
+      "sum": 2400.5,
+      "payment_order_number": "778",
+      "date_created": "2026-05-05T18:00:00+0300",
+      "orders": [
+        {
+          "cdek_number": 1234567890,
+          "transfer_sum": 2340.0,
+          "payment_sum": 2400.5,
+          "total_sum_without_agent": 2400.5,
+          "agent_commission_sum": 60.5,
+          "basis_type": "ORDER"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

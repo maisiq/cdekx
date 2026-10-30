@@ -1,0 +1,20 @@
+{
+  "orders": [
+    {
+      "order_uuid": "8dea00e3-9aab-4d8e-887c-ef2aaa546456",
+      "cdek_number": 1234567890,
+      "link": "https://api.cdek.ru/v2/photoDocument/2f4a0f4c-6f7f-4a2f-8f5b-4b8b0e4b8b0e",
+      "status": "DONE",
+      "create_date": "2026-04-13T09:00:00+0300"
+    },
+    {
+      "order_uuid": "9efb11f4-0bbc-4e9f-998d-0f3bbb657567",
+      "cdek_number": 1234567891,
+      "link": "https://api.cdek.ru/v2/photoDocument/3a5b1c5d-7e8f-4a2f-8f5b-4b8b0e4b8b0f",
+      "status": "IN_PROGRESS",
+      "create_date": "2026-04-13T09:05:00+0300"
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

@@ -1,0 +1,86 @@
+site_name: cdekx
+site_description: Современный асинхронный клиент API СДЭК (v2)
+# Канонический адрес сайта документации (GitHub Pages). Влияет на
+# <link rel="canonical">, sitemap.xml и RSS. До включения Pages сайт
+# не собирается, так что ссылка обязана быть именно такой.
+site_url: https://maisiq.github.io/cdekx/
+repo_url: https://github.com/maisiq/cdekx
+repo_name: maisiq/cdekx
+edit_uri: edit/master/docs/
+
+theme:
+  name: material
+  language: ru
+  palette:
+    - scheme: default
+      primary: green
+      accent: green
+      toggle:
+        icon: material/weather-night
+        name: Тёмная тема
+    - scheme: slate
+      primary: green
+      accent: green
+      toggle:
+        icon: material/weather-sunny
+        name: Светлая тема
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - content.code.annotate
+    - search.highlight
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  # docs/contributing.md состоит из одной строки `--8<-- "CONTRIBUTING.md"` —
+  # это синтаксис pymdownx.snippets. Без расширения строка рендерится как
+  # есть, и страница «Вклад в проект» оказывается пустой; `--strict` этого
+  # не ловит. base_path по умолчанию ['.'] = текущий каталог = корень
+  # репозитория, откуда mkdocs и запускается (make docs и CI).
+  # check_paths роняет сборку, если включаемый файл не найден, вместо
+  # тихого удаления разметки. Зависимость уже есть: pymdown-extensions
+  # ставится вместе с mkdocs-material.
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+      # Дефолтный slugify вырезает кириллицу («## Вебхуки» → якорь «_1»),
+      # из-за чего русские якоря в ссылках не работают. См. mkdocs_hooks.py.
+      slugify: !!python/name:mkdocs_hooks.slugify
+
+hooks:
+  - mkdocs_hooks.py
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: false
+            show_root_heading: true
+            members_order: source
+            filters: ["!^_"]
+
+nav:
+  - Главная: index.md
+  - Быстрый старт: quickstart.md
+  - Архитектура: ARCHITECTURE.md
+  - Покрытие API: API_COVERAGE.md
+  - Рецепты: recipes.md
+  - Справочник API:
+      - Клиент: reference/client.md
+      - Модели: reference/models.md
+      - Исключения: reference/exceptions.md
+      - Вебхуки: reference/webhooks.md
+  - Вклад в проект: contributing.md
+  - Лицензия и происхождение кода: license.md

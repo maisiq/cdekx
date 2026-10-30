@@ -1,0 +1,12 @@
+[
+  {
+    "uuid": "aa11bb22-cc33-dd44-ee55-ff6677889900",
+    "type": "ORDER_STATUS",
+    "url": "https://example.com/webhooks/cdek/secret"
+  },
+  {
+    "uuid": "bb22cc33-dd44-ee55-ff66-778899001122",
+    "type": "PRINT_FORM",
+    "url": "https://example.com/webhooks/cdek/print"
+  }
+]

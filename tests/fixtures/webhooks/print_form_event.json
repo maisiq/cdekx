@@ -1,0 +1,10 @@
+{
+  "type": "PRINT_FORM",
+  "date_time": "2026-05-05T10:00:09+0300",
+  "uuid": "c02f3f41-4a5b-4c6d-8e9f-0a1b2c3d4e5f",
+  "attributes": {
+    "type": "barcodes",
+    "format": "A4",
+    "url": "https://api.cdek.ru/v2/print/barcodes/c02f3f41-4a5b-4c6d-8e9f-0a1b2c3d4e5f.pdf"
+  }
+}

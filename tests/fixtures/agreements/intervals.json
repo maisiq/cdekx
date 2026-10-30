@@ -1,0 +1,17 @@
+{
+  "date_intervals": [
+    {
+      "date": "2026-05-11",
+      "time_intervals": [
+        {"start_time": "09:00", "end_time": "13:00", "agreed_count": 2, "total_count": 10},
+        {"start_time": "13:00", "end_time": "18:00", "agreed_count": 8, "total_count": 10}
+      ]
+    },
+    {
+      "date": "2026-05-12",
+      "time_intervals": [
+        {"start_time": "10:00", "end_time": "15:00", "agreed_count": 0, "total_count": 5}
+      ]
+    }
+  ]
+}

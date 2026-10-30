@@ -1,0 +1,18 @@
+{
+  "entity": {
+    "uuid": "8dea00e3-9aab-4d8e-887c-ef2aaa546456"
+  },
+  "requests": [
+    {
+      "request_uuid": "2d0cf4ff-9aab-4d8e-887c-ef2aaa546456",
+      "type": "UPDATE",
+      "date_time": "2026-05-05T11:00:00+0300",
+      "state": "ACCEPTED",
+      "errors": [],
+      "warnings": [
+        {"code": "v2_cost_change_by_tariff", "message": "New tariff code can trigger change order cost"}
+      ]
+    }
+  ],
+  "related_entities": []
+}

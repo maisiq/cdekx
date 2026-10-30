@@ -1,0 +1,12 @@
+{
+  "type": "COURIER_INFO",
+  "date_time": "2026-05-06T09:15:00+0300",
+  "uuid": "8dea00e3-9aab-4d8e-887c-ef2aaa546456",
+  "attributes": {
+    "task_type": "DELIVERY",
+    "courier_fio": "Петров Пётр Петрович",
+    "courier_phone": "+79001234567",
+    "car_model": "Lada Largus",
+    "car_number": "А123АА77"
+  }
+}

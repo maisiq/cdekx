@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Документация API СДЭК
+    url: https://apidoc.cdek.ru/
+    about: Официальное описание методов, истории изменений и OpenAPI-спецификация
+  - name: Вопросы по интеграции со СДЭК
+    url: https://www.cdek.ru/ru/integration/api/
+    about: Ключи доступа и поддержка на стороне СДЭК

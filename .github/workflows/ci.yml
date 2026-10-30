@@ -1,0 +1,124 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  schedule:
+    # раз в неделю — следить за изменениями API СДЭК
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Ruff + Mypy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install "ruff>=0.6" "mypy>=1.11" httpx pydantic
+
+      - name: Ruff lint
+        run: ruff check .
+
+      - name: Ruff format check
+        run: ruff format --check .
+
+      - name: Mypy (strict)
+        run: mypy src
+
+  test:
+    name: Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          # starlette — extra "webhooks": без него тесты ASGI-приёмника
+          # скипаются через importorskip, и webhooks/asgi.py остаётся непокрытым.
+          pip install -e ".[webhooks]" pytest pytest-asyncio pytest-cov respx
+
+      - name: Run unit tests
+        run: pytest -q --cov=cdekx --cov-report=term-missing --cov-report=html --cov-report=xml
+
+      - name: Upload coverage
+        if: matrix.python-version == '3.12'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            htmlcov/
+            coverage.xml
+
+  # Сверка моделей с актуальной OpenAPI-спецификацией СДЭК.
+  # Запускается по расписанию и вручную: спецификация меняется несколько раз в месяц.
+  drift:
+    name: API contract drift
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Download CDEK OpenAPI spec
+        run: python scripts/fetch_openapi.py api_v2_integration
+
+      - name: Compare models with spec
+        run: python scripts/generate_from_openapi.py .apidoc/api_v2_integration.json --drift
+
+  # Живые тесты против api.edu.cdek.ru — по расписанию и вручную.
+  # Учётные данные учебной среды публичны, но гонять их на каждый PR нельзя:
+  # среда нестабильна и лимитирована.
+  integration:
+    name: Integration (api.edu.cdek.ru)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e . pytest pytest-asyncio respx
+
+      - name: Run integration tests
+        env:
+          CDEKX_RUN_INTEGRATION: "1"
+          CDEKX_CLIENT_ID: ${{ secrets.CDEK_CLIENT_ID }}
+          CDEKX_CLIENT_SECRET: ${{ secrets.CDEK_CLIENT_SECRET }}
+          CDEKX_ENVIRONMENT: sandbox
+        run: pytest -m integration -v

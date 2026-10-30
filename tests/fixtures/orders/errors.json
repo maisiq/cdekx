@@ -1,0 +1,14 @@
+{
+  "errors": [
+    {
+      "code": "v2_order_invalid",
+      "message": "Order is invalid ORDER-0001",
+      "additional_code": "SUP-42"
+    },
+    {
+      "code": "v2_number_items_is_more_126",
+      "message": "The number of commodity items is more than 126"
+    }
+  ],
+  "warnings": []
+}

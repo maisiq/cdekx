@@ -1,0 +1,37 @@
+{
+  "entity": {
+    "uuid": "d1e2f3a4-b5c6-4d7e-8f9a-0b1c2d3e4f5a",
+    "prealert_number": "PR-000123",
+    "planned_date": "2026-05-12T00:00:00+0300",
+    "shipment_point": "MSK",
+    "closed_date": "2026-05-12T18:30:00+0300",
+    "fact_shipment_point": "MSK2",
+    "orders": [
+      {
+        "order_uuid": "8dea00e3-9aab-4d8e-887c-ef2aaa546456",
+        "cdek_number": 1234567890,
+        "im_number": "client-order-1",
+        "packages": [
+          {
+            "package_id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+            "number": "pkg-1",
+            "status": "ACCEPTED"
+          },
+          {
+            "package_id": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+            "number": "pkg-2",
+            "status": "NOT_ACCEPTED"
+          }
+        ]
+      }
+    ]
+  },
+  "requests": [
+    {
+      "request_uuid": "e2f3a4b5-c6d7-4e8f-9a0b-1c2d3e4f5a6b",
+      "type": "GET",
+      "date_time": "2026-05-13T10:00:00+0300",
+      "state": "SUCCESSFUL"
+    }
+  ]
+}

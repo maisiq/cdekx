@@ -1,0 +1,23 @@
+{
+  "entity": {
+    "uuid": "c02f3f41-4a5b-4c6d-8e9f-0a1b2c3d4e5f",
+    "orders": [{"order_uuid": "8dea00e3-9aab-4d8e-887c-ef2aaa546456"}],
+    "copy_count": 2,
+    "type": "tpl_russia",
+    "url": "https://api.cdek.ru/v2/print/orders/c02f3f41-4a5b-4c6d-8e9f-0a1b2c3d4e5f.pdf",
+    "statuses": [
+      {
+        "code": "IN_PROGRESS",
+        "name": "Формируется",
+        "date_time": "2026-05-05T10:00:01+0300"
+      },
+      {
+        "code": "DONE",
+        "name": "Сформирована",
+        "date_time": "2026-05-05T10:00:09+0300"
+      }
+    ]
+  },
+  "requests": [],
+  "related_entities": []
+}

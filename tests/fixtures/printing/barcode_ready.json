@@ -1,0 +1,15 @@
+{
+  "entity": {
+    "uuid": "b11c2d33-e44f-5a6b-8c9d-0e1f2a3b4c5d",
+    "orders": [{"cdek_number": "1234567890"}],
+    "copy_count": 1,
+    "format": "A4",
+    "lang": "RUS",
+    "url": "https://api.cdek.ru/v2/print/barcodes/b11c2d33-e44f-5a6b-8c9d-0e1f2a3b4c5d.pdf",
+    "statuses": [
+      {"code": "DONE", "name": "Сформирована", "date_time": "2026-05-05T10:00:07+0300"}
+    ]
+  },
+  "requests": [],
+  "related_entities": []
+}
